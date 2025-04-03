@@ -93,13 +93,13 @@ def reactNativeArchitectures() {
 android {
     ndkVersion rootProject.ext.ndkVersion
 
-    compileSdkVersion 34
+    compileSdkVersion rootProject.ext.compileSdkVersion
 
     namespace "com.tagcountergame"
     defaultConfig {
         applicationId "com.tagcountergame"
         minSdkVersion rootProject.ext.minSdkVersion
-        targetSdkVersion 34
+        targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 1
         versionName "1.0"
     }
