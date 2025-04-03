@@ -40,14 +40,14 @@ jobs:
       # Paso para decodificar el keystore antes del build
       - name: Decrypt Keystore
         run: |
-          echo "$TOM_SP_KEYSTORE_BASE64" | base64 --decode > app/tom-SP.keystore
+          echo "$TOM_SP_KEYSTORE_BASE64" | base64 --decode > android/app/tom-SP.keystore
         env:
           TOM_SP_KEYSTORE_BASE64: ${{ secrets.TOM_SP_KEYSTORE_BASE64 }}
 
       # (Opcional) Configurar propiedades de firma si no están definidas en gradle.properties
       - name: Set up signing properties
         run: |
-          echo "MYAPP_UPLOAD_STORE_FILE=tom-SP.keystore" >> android/android/gradle.properties
+          echo "MYAPP_UPLOAD_STORE_FILE=tom-SP.keystore" >> android/gradle.properties
           echo "MYAPP_UPLOAD_KEY_ALIAS=${{ secrets.MY_KEY_ALIAS }}" >> android/gradle.properties
           echo "MYAPP_UPLOAD_STORE_PASSWORD=${{ secrets.MY_KEYSTORE_PASSWORD }}" >> android/gradle.properties
           echo "MYAPP_UPLOAD_KEY_PASSWORD=${{ secrets.MY_KEY_PASSWORD }}" >> android/gradle.properties
