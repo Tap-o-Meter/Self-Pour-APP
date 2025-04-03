@@ -5,6 +5,8 @@ import actions from '../redux/actions';
 import globalStyles from '../../assets/styles';
 import {useDispatch, useSelector} from 'react-redux';
 import Icon from 'react-native-vector-icons/Ionicons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import AndroidPrompt from '../components/Modals/AndroidPrompt';
 import React, {useState, useEffect, useRef} from 'react';
 

@@ -136,7 +136,7 @@ const Splash = ({ navigation, requestDeviceList }) => {
 
   // Estados para el modal en Android
   const [modalVisible, setModalVisible] = useState(false);
-  const [newUrl, setNewUrl] = useState(config.url);
+  const [newUrl, setNewUrl] = useState(null);
 
   useEffect(() => {
     checkConnection();
@@ -145,10 +145,11 @@ const Splash = ({ navigation, requestDeviceList }) => {
 
   let timeoutId;
 
-  const checkConnection = () => {
-    socket.connect();
+  const checkConnection = (url) => {
+    const _url = url || newUrl || "http://192.168.1.182:3000";
+    initSocket(_url)
     timeoutId = setTimeout(() => {
-      if (socket.connected) {
+      if (socket?.connected) {
         setIndex(index + 1);
         requestDeviceList(socket);
       } else if (timesTried > 4) {
@@ -160,11 +161,11 @@ const Splash = ({ navigation, requestDeviceList }) => {
     }, 1500);
   };
 
-  const retry = () => {
+  const retry = (url) => {
     setTimesTried(0);
     setIndex(0);
     setLoop(true);
-    checkConnection();
+    checkConnection(url);
   };
 
   const handleRetry = () => {
@@ -196,23 +197,23 @@ const Splash = ({ navigation, requestDeviceList }) => {
       );
     } else {
       // Para Android mostramos un modal personalizado
-      setNewUrl(config.url);
+      setNewUrl(null);
       setModalVisible(true);
     }
   };
 
   const handleModalAceptar = () => {
     // Reinicializamos el socket con la nueva URL y cerramos el modal
-    initSocket(newUrl);
+    console.log(newUrl);
     setModalVisible(false);
-    retry();
-    console.log(socket);
+    retry(newUrl);
+    // console.log(socket);
   };
 
   const handleModalCancelar = () => {
     setModalVisible(false);
     retry();
-    console.log(socket);
+    // console.log(socket);
     
   };
 

@@ -1,7 +1,7 @@
 import actions from './actions';
 import {createStore} from 'redux';
 import {combineReducers} from 'redux';
-import {socket, connectSocket} from '../config/socket';
+import {socket, connectSocket, setUpSocket} from '../config/socket';
 import beerReducer from './reducers/beerReducer';
 import userReducer from './reducers/userReducer';
 
@@ -21,6 +21,10 @@ export default {
 };
 
 const setUpSocketHandlers = () => {
+  if (!socket) {
+    console.log('Socket not initialized');
+    return;
+  }
   socket.on('connect', () => {
     console.log('Socket connected mdfk');
     // socket.emit('setUserSocket', Store.getState().account.user._id);
@@ -60,11 +64,13 @@ const setUpSocketHandlers = () => {
     console.log(error);
   });
 }
-setUpSocketHandlers();
+// xHandlers();
 
 const initSocket = (url) => {
-  connectSocket(url);
-  setUpSocketHandlers();
+  setUpSocket(url).then(() => {
+    // console.log('Socket connected');
+    setUpSocketHandlers();
+  });
 };
 
 export {socket, initSocket};
