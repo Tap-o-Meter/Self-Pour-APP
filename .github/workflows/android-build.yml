@@ -27,10 +27,12 @@ jobs:
           distribution: temurin
           java-version: '11'
 
-      - name: Install Android SDK components
-        uses: reactivecircus/android-sdk-installer@v2
-        with:
-          components: "cmake;3.22.1"
+      # Agrega el directorio de sdkmanager al PATH
+      - name: Add sdkmanager to PATH
+        run: echo "/usr/local/lib/android/sdk/cmdline-tools/latest/bin" >> $GITHUB_PATH
+
+      - name: Install CMake 3.22.1
+        run: sdkmanager --install "cmake;3.22.1"
 
       - name: Configure CMake dir
         run: echo "cmake.dir=/usr/local/lib/android/sdk/cmake/3.22.1" >> android/gradle.properties
