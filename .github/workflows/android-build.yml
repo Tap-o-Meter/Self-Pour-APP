@@ -28,7 +28,7 @@ jobs:
           java-version: '11'
 
       - name: Install Android SDK components
-        uses: reactivecircus/android-sdk-installer@v1
+        uses: reactivecircus/android-sdk-installer@v2
         with:
           components: "cmake;3.22.1"
 
