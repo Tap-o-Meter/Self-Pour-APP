@@ -1,26 +1,3 @@
-// import io from 'socket.io-client';
-
-// export let socket = null;
-// export let url = 'http://192.168.1.182:3000';
-
-// export function connectSocket(newUrl) {
-//   // Desconectamos el socket anterior si existe
-//   if (socket) {
-//     socket.disconnect();
-//   }
-
-//   // Actualizamos la URL global
-//   url = newUrl;
-
-//   // Creamos una nueva instancia con la URL actualizada
-//   socket = io(url);
-
-//   return socket;
-// }
-
-// connectSocket(url);
-// socket.disconnect();
-
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import io from 'socket.io-client';
 
@@ -75,8 +52,3 @@ export async function setUpSocket(newUrl) {
 
     return socket;
 }
-
-// init();
-// socket.disconnect();
-
-
