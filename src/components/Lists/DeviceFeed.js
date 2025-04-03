@@ -65,11 +65,11 @@ const DeviceFeed = ({ lines, header, requestDeviceList }) => {
             autoPlay
             loop
           />
-          <Text style={{ color: 'white', fontSize: 16 }}>
+          <Text style={{ color: 'black', fontSize: 16 }}>
             No hay lines
           </Text>
           <TouchableOpacity onPress={onRefresh}>
-            <Text style={{ color: 'white' }}>Vales dick!</Text>
+            <Text style={{ color: 'black' }}>Vales dick!</Text>
           </TouchableOpacity>
         </View>
       ) : (

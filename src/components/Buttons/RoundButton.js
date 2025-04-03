@@ -22,7 +22,7 @@ const MaterialButtonPurple = ({
     <TouchableOpacity
       onPress={onPress}
       disabled={!eneable}
-      style={[styles.root, style, args]}>
+      style={[styles.root, args, style]}>
       <Text style={styles.caption}>{caption}</Text>
     </TouchableOpacity>
   );

@@ -1,5 +1,5 @@
 import React from 'react';
-import socket from '../config/socket';
+import {socket} from '../config/socket';
 import {
   TouchableOpacity,
   View,

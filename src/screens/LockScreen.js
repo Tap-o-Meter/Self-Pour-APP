@@ -59,6 +59,7 @@ const LockScreen = ({navigation}) => {
     NfcManager.unregisterTagEvent().catch(() => 0);
 
     const formattedString = tag.id.replace(/(..)/g, '$1 ').trim();
+    console.warn(formattedString);
     setUserId(formattedString);
     loaderRef.current.setLoading(true);
 
@@ -83,16 +84,13 @@ const LockScreen = ({navigation}) => {
           />
           <View style={styles.productInfo}>
             <Text style={styles.productName}>{item.beer.name}</Text>
-            <Text style={[styles.productStyle]}>
-              {item.beer.style}
-            </Text>
+            <Text style={[styles.productStyle]}>{item.beer.style}</Text>
             <Text style={styles.productStyle}>
               <Text style={styles.productDetails}>IBU:</Text>
-              {' ' + item.beer.ibu+" "} -
+              {' ' + item.beer.ibu + ' '} -
               <Text style={styles.productDetails}> ABV:</Text>
-              {' ' +item.beer.abv}
+              {' ' + item.beer.abv}
             </Text>
-           
           </View>
         </View>
       </View>
@@ -105,17 +103,35 @@ const LockScreen = ({navigation}) => {
         <Text style={styles.titleHeader}>MENÚ DE CERVEZAS</Text>
       </View>
 
-      <FlatList
-        style={styles.productList}
-        horizontal={true}
-        data={fullInfoLines}
-        snapToInterval={width * 0.9}
-        decelerationRate={'fast'}
-        renderItem={renderProduct}
-        keyExtractor={item => item._id}
-        showsHorizontalScrollIndicator={false}
-        contentContainerStyle={styles.internalList}
-      />
+      {fullInfoLines && fullInfoLines.length > 0 ? (
+        <FlatList
+          style={styles.productList}
+          horizontal={true}
+          data={fullInfoLines}
+          snapToInterval={width * 0.9}
+          decelerationRate={'fast'}
+          renderItem={renderProduct}
+          keyExtractor={item => item._id}
+          showsHorizontalScrollIndicator={false}
+          contentContainerStyle={styles.internalList}
+        />
+      ) : (
+        <View style={styles.emptyBoxWrapper}>
+          <Text style={{fontSize: 20, color: 'black', fontWeight: 'bold'}}>
+            No hay cervezas disponibles
+          </Text>
+
+          <RoundButton
+            style={styles.reloadButton}
+            color={globalStyles.colors.lightGreen}
+            eneable={true}
+            caption={'Recargar'}
+            onPress={() => {
+              dispatch(actions.requestDeviceList(socket));
+            }}
+          />
+        </View>
+      )}
 
       <RoundButton
         style={styles.startButton}
@@ -129,7 +145,7 @@ const LockScreen = ({navigation}) => {
           NfcManager.unregisterTagEvent().catch(() => 0);
         }}
       />
-      <Loader ref={loaderRef} animationType={'fade'}/>
+      <Loader ref={loaderRef} animationType={'fade'} />
     </View>
   );
 };
@@ -198,5 +214,15 @@ const styles = StyleSheet.create({
   },
   startButton: {
     marginTop: 20,
+  },
+  emptyBoxWrapper: {
+    width: '100%',
+    height: height * 0.7,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  reloadButton: {
+    marginTop: 45,
+    width: '30%',
   },
 });
