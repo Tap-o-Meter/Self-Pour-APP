@@ -39,7 +39,7 @@ export async function loadSocketUrl() {
   } catch (error) {
     console.error("Error al cargar la URL almacenada:", error);
   }
-  return url;
+  return default_url;
 }
 
 // Función para conectar el socket con la URL que se le pase
@@ -68,7 +68,7 @@ export function connectSocket(newUrl) {
 }
 
 export async function setUpSocket(newUrl) {
-    const finalUrl = newUrl || await loadSocketUrl();
+    const finalUrl = newUrl || await loadSocketUrl() || default_url;
     console.log(`Conectando a ${finalUrl}`);
     
     connectSocket(finalUrl);
