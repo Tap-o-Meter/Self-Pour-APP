@@ -1,6 +1,45 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import io from 'socket.io-client';
 
+import Zeroconf from 'react-native-zeroconf';
+
+const zeroconf = new Zeroconf();
+
+zeroconf.on('start', () => {
+    console.log('Escaneo iniciado');
+  });
+
+zeroconf.on('resolved', service => {
+  console.log('Servicio descubierto:', service);
+
+  if (service.host === 'tom-server.local.') {
+    console.log('La IP de hola.local es:', service.addresses[0]);
+    zeroconf.stop(); // Si ya obtuviste la IP, puedes detener el escaneo.
+  }
+});
+
+zeroconf.on('found', service => {
+    console.log('Servicio encontrado:', service);
+    }
+);
+
+// Manejar errores
+zeroconf.on('error', err => {
+  console.log('Zero conf Error:', err);
+});
+
+zeroconf.on('stop', () => {
+    console.log('Escaneo detenido');
+    });
+
+// Iniciar el escaneo
+// Comienza a escanear servicios
+zeroconf.scan('http', 'tcp', 'local.')
+// zeroconf.scan(undefined, undefined, undefined, 'DNSSD');
+
+
+
+
 // URL por defecto
 const default_url = 'http://192.168.0.182:3000';
 // Variable para la instancia del socket
