@@ -18,7 +18,7 @@ import {
   ScrollView,
   Animated,
 } from 'react-native';
-import socket from '../config/socket';
+import {socket} from '../config/socket';
 
 import {
     Pressable,

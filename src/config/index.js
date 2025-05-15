@@ -94,7 +94,7 @@ export default {
     if (inverted) return (value / oneOZ).toFixed(1);
     return (value * oneOZ).toFixed(1);
   },
-  baseUrl: 'http://192.168.1.79:3000/',
+  baseUrl: 'http://192.168.1.59:3001/',
   configUrl: 'http://192.168.4.1/wifisave?s=',
   request: connexion.request,
   retrieveData: storage.retrieveData,

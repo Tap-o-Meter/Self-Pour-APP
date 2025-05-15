@@ -41,7 +41,7 @@ zeroconf.scan('http', 'tcp', 'local.')
 
 
 // URL por defecto
-const default_url = 'http://192.168.0.182:3000';
+const default_url = 'http://192.168.1.59:3001';
 // Variable para la instancia del socket
 export let socket = null;
 

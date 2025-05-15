@@ -1,11 +1,12 @@
-
-import React, { useState, useEffect } from 'react';
-import { LineCell } from '../cells';
+import React, {useState, useEffect} from 'react';
+import {LineCell} from '../cells';
 import actions from '../../redux/actions';
-import { socket } from '../../redux/store';
-import { connect } from 'react-redux';
+import {socket} from '../../redux/store';
+import {connect} from 'react-redux';
 import config from '../../config';
 import LottieView from 'lottie-react-native';
+import globalStyles from '../../../assets/styles';
+import RoundButton from '../Buttons/RoundButton';
 
 import {
   FlatList,
@@ -17,11 +18,10 @@ import {
   TouchableOpacity,
 } from 'react-native';
 
-const DeviceFeed = ({ lines, header, requestDeviceList }) => {
+const DeviceFeed = ({lines, header, requestDeviceList}) => {
   const [refreshing, setRefreshing] = useState(false);
   const [refreshTxt, setRefreshTxt] = useState('');
   const [timer, setTimer] = useState(null); // Declare the timer variable
-
 
   useEffect(() => {
     if (refreshing) {
@@ -33,12 +33,11 @@ const DeviceFeed = ({ lines, header, requestDeviceList }) => {
     }
   }, [setRefreshing, setRefreshTxt, timer]);
 
-
-  const _renderPost = ({ item, index }) => {
+  const _renderPost = ({item, index}) => {
     return item.idKeg.length > 0 ? <LineCell line={item} /> : null;
   };
 
-  const _returnKey = (item) => {
+  const _returnKey = item => {
     return item._id.toString();
   };
 
@@ -61,16 +60,18 @@ const DeviceFeed = ({ lines, header, requestDeviceList }) => {
         <View style={styles.emptyBoxWrapper}>
           <LottieView
             style={styles.emptyBox}
-            source={config.animaciones.emptyBox}
+            source={config.animations?.emptyBox}
             autoPlay
             loop
           />
-          <Text style={{ color: 'black', fontSize: 16 }}>
-            No hay lines
-          </Text>
-          <TouchableOpacity onPress={onRefresh}>
-            <Text style={{ color: 'black' }}>Vales dick!</Text>
-          </TouchableOpacity>
+          <Text style={{color: 'black', fontSize: 16}}>No hay lines</Text>
+          <RoundButton
+            style={styles.reloadButton}
+            color={globalStyles.colors.lightGreen}
+            eneable={true}
+            caption="Recargar"
+            onPress={() => onRefresh()}
+          />
         </View>
       ) : (
         <FlatList
@@ -95,9 +96,9 @@ const DeviceFeed = ({ lines, header, requestDeviceList }) => {
   );
 };
 
-const dispatchToProps = (dispatch) => {
+const dispatchToProps = dispatch => {
   return {
-    requestDeviceList: (socket) => {
+    requestDeviceList: socket => {
       dispatch(actions.requestDeviceList(socket));
     },
   };
@@ -126,5 +127,9 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  emptyBox: { width: 120, height: 120 },
+  emptyBox: {width: 120, height: 120},
+  reloadButton: {
+    marginTop: 45,
+    width: '30%',
+  },
 });
