@@ -11,7 +11,7 @@ const MaterialButtonPurple = ({
   color,
   style,
 }) => {
-  const opacity = eneable ? 1 : 0.8;
+  const opacity = eneable ? 1 : 0.7;
   const backgroundColor = color ? color : globalStyles.colors.red;
 
   var args = {backgroundColor, opacity};

@@ -236,7 +236,7 @@ function PouringModal(props, ref) {
                       type={'lg'}
                       onPress={cancelHandler}
                       caption="CANCEL"
-                      eneable
+                      eneable={pouredPercentage > 70}
                     />
                   </View>
                   <View
