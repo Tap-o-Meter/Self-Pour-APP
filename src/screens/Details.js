@@ -209,7 +209,7 @@ const styles = StyleSheet.create({
   },
   productImage: {
     width: '100%',
-    height: 360,
+    height: 290,
     // backgroundColor: 'red',
   },
   productInfo: {
