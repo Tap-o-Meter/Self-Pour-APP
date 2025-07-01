@@ -1,4 +1,4 @@
-name: Android Build
+name: Android Build & Deploy
 
 on:
   push:
@@ -27,7 +27,6 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      # Agrega el directorio de sdkmanager al PATH
       - name: Add sdkmanager to PATH
         run: echo "/usr/local/lib/android/sdk/cmdline-tools/latest/bin" >> $GITHUB_PATH
 
@@ -37,14 +36,12 @@ jobs:
       - name: Configure CMake dir
         run: echo "cmake.dir=/usr/local/lib/android/sdk/cmake/3.22.1" >> android/gradle.properties
 
-      # Paso para decodificar el keystore antes del build
       - name: Decrypt Keystore
         run: |
           echo "$TOM_SP_KEYSTORE_BASE64" | base64 --decode > android/app/tom-SP.keystore
         env:
           TOM_SP_KEYSTORE_BASE64: ${{ secrets.TOM_SP_KEYSTORE_BASE64 }}
 
-      # (Opcional) Configurar propiedades de firma si no están definidas en gradle.properties
       - name: Set up signing properties
         run: |
           echo "MYAPP_UPLOAD_STORE_FILE=tom-SP.keystore" >> android/gradle.properties
@@ -77,3 +74,13 @@ jobs:
         with:
           name: app-release-apk
           path: android/app/build/outputs/apk/release/app-release.apk
+
+      - name: Deploy APK via FTP
+        uses: SamKirkland/FTP-Deploy-Action@v4.3.5
+        with:
+          server: ${{ secrets.FTP_SERVER }}        # por ejemplo: ftp.midominio.com
+          username: ${{ secrets.FTP_USERNAME }}    # tu usuario FTP
+          password: ${{ secrets.FTP_PASSWORD }}    # tu contraseña FTP
+          local-dir: android/app/build/outputs/apk/release
+          server-dir: /public_html/downloads        # ajusta según carpeta destino en tu servidor
+          include: app-release.apk                  # solo este archivo se sube
