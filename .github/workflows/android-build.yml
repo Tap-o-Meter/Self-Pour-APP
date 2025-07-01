@@ -63,24 +63,30 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-gradle
 
+      # 1) Generamos una variable de entorno con la fecha YYYYMMDD (UTC del runner)
+      - name: Set build date
+        run: echo "BUILD_DATE=$(date '+%Y%m%d')" >> $GITHUB_ENV
+
+      # 2) Compilamos el APK
       - name: Build Release APK
         working-directory: android
         run: |
           chmod +x gradlew
           ./gradlew assembleRelease
 
-      - name: Upload APK Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-release-apk
-          path: android/app/build/outputs/apk/release/app-release.apk
+      # 3) Renombramos el APK usando la fecha
+      - name: Rename APK to include date
+        run: |
+          mv android/app/build/outputs/apk/release/app-release.apk \
+             android/app/build/outputs/apk/release/KRN42_${{ env.BUILD_DATE }}.apk
 
+      # 4) Lo subimos por FTP con el nuevo nombre
       - name: Deploy APK via FTP
         uses: SamKirkland/FTP-Deploy-Action@v4.3.5
         with:
-          server: ${{ secrets.FTP_SERVER }}        # por ejemplo: ftp.midominio.com
-          username: ${{ secrets.FTP_USERNAME }}    # tu usuario FTP
-          password: ${{ secrets.FTP_PASSWORD }}    # tu contraseña FTP
-          local-dir: android/app/build/outputs/apk/release/
-          server-dir: /public_html/downloads/        # ajusta según carpeta destino en tu servidor
-          include: app-release.apk                  # solo este archivo se sube
+          server: ${{ secrets.FTP_SERVER }}
+          username: ${{ secrets.FTP_USERNAME }}
+          password: ${{ secrets.FTP_PASSWORD }}
+          local-dir: android/app/build/outputs/apk/release/   # carpeta con slash al final 
+          server-dir: /public_html/downloads/
+          include: KRN42_${{ env.BUILD_DATE }}.apk
