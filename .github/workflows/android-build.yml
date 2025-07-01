@@ -81,6 +81,6 @@ jobs:
           server: ${{ secrets.FTP_SERVER }}        # por ejemplo: ftp.midominio.com
           username: ${{ secrets.FTP_USERNAME }}    # tu usuario FTP
           password: ${{ secrets.FTP_PASSWORD }}    # tu contraseña FTP
-          local-dir: android/app/build/outputs/apk/release
-          server-dir: /public_html/downloads        # ajusta según carpeta destino en tu servidor
+          local-dir: android/app/build/outputs/apk/release/
+          server-dir: /public_html/downloads/        # ajusta según carpeta destino en tu servidor
           include: app-release.apk                  # solo este archivo se sube
